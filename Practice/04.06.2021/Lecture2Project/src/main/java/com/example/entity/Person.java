@@ -4,6 +4,9 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.OneToMany;
+import java.util.List;
+
 @Document(indexName = "person_index")
 @Data
 @AllArgsConstructor
@@ -19,6 +22,4 @@ public class Person {
     private String name;
     @NonNull
     private int age;
-
-
 }
