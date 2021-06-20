@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DelegateService implements JavaDelegate {
-//    @Qualifier("eurekaClient")
-//    @Autowired
-//    private EurekaClient eurekaClient;
 
     @Autowired
     private PersonServiceClient personServiceClient;
