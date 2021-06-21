@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0lgwsuq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
-  <bpmn:process id="Process_0ew7pz4" isExecutable="true">
+  <bpmn:process id="GetPersonsListProcess" isExecutable="true">
     <bpmn:startEvent id="Event_1gpvsr3">
       <bpmn:outgoing>Flow_12vpww8</bpmn:outgoing>
     </bpmn:startEvent>
@@ -9,7 +9,7 @@
       <bpmn:incoming>Flow_1qjlhb6</bpmn:incoming>
       <bpmn:outgoing>Flow_1bryd54</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_1xzkzcr" name="Get People" camunda:delegateExpression="${delegateService}">
+    <bpmn:serviceTask id="Activity_1xzkzcr" name="Get People" camunda:type="external" camunda:topic="personslist">
       <bpmn:incoming>Flow_1bryd54</bpmn:incoming>
       <bpmn:outgoing>Flow_0vynzk9</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -40,7 +40,7 @@
     <bpmn:sequenceFlow id="Flow_0dbrr01" sourceRef="Gateway_0sl2n09" targetRef="Event_0eip0ql" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0ew7pz4">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GetPersonsListProcess">
       <bpmndi:BPMNEdge id="Flow_12vpww8_di" bpmnElement="Flow_12vpww8">
         <di:waypoint x="188" y="270" />
         <di:waypoint x="243" y="270" />
