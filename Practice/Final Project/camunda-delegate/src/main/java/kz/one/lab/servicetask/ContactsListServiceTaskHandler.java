@@ -1,4 +1,4 @@
-package kz.one.lab;
+package kz.one.lab.servicetask;
 
 import kz.one.lab.client.PersonServiceClient;
 import kz.one.lab.model.Contact;
@@ -11,9 +11,11 @@ import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-@ExternalTaskSubscription(topicName = "update_contact")
-public class UpdateContactServiceTaskHandler implements ExternalTaskHandler {
+@ExternalTaskSubscription(topicName = "contacts_list")
+public class ContactsListServiceTaskHandler implements ExternalTaskHandler {
 
     @Autowired
     private PersonServiceClient personServiceClient;
@@ -21,14 +23,11 @@ public class UpdateContactServiceTaskHandler implements ExternalTaskHandler {
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
 
         Long personId = externalTask.getVariable("personId");
-        Long contactId = externalTask.getVariable("contactId");
-        String name = externalTask.getVariable("name");
-        String phoneNumber = externalTask.getVariable("phoneNumber");
 
-        Contact contact = personServiceClient.updateContact(personId, contactId, name, phoneNumber);
+        List<Contact> contacts = personServiceClient.personsContacts(personId);
 
         VariableMap variableMap = Variables.createVariables();
-        variableMap.put("updated_contact", contact);
+        variableMap.put("persons_contacts", contacts);
 
         externalTaskService.complete(externalTask, variableMap);
     }

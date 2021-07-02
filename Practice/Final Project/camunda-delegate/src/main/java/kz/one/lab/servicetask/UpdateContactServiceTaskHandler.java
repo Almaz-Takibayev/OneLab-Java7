@@ -1,4 +1,4 @@
-package kz.one.lab;
+package kz.one.lab.servicetask;
 
 import kz.one.lab.client.PersonServiceClient;
 import kz.one.lab.model.Contact;
@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@ExternalTaskSubscription(topicName = "delete_contact")
-public class DeleteContactServiceTaskHandler implements ExternalTaskHandler {
+@ExternalTaskSubscription(topicName = "update_contact")
+public class UpdateContactServiceTaskHandler implements ExternalTaskHandler {
 
     @Autowired
     private PersonServiceClient personServiceClient;
@@ -22,11 +22,13 @@ public class DeleteContactServiceTaskHandler implements ExternalTaskHandler {
 
         Long personId = externalTask.getVariable("personId");
         Long contactId = externalTask.getVariable("contactId");
+        String name = externalTask.getVariable("name");
+        String phoneNumber = externalTask.getVariable("phoneNumber");
 
-        Contact contact = personServiceClient.deleteContact(personId, contactId);
+        Contact contact = personServiceClient.updateContact(personId, contactId, name, phoneNumber);
 
         VariableMap variableMap = Variables.createVariables();
-        variableMap.put("deleted_contact", contact);
+        variableMap.put("updated_contact", contact);
 
         externalTaskService.complete(externalTask, variableMap);
     }

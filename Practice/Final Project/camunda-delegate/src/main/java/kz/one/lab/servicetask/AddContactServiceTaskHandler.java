@@ -1,7 +1,7 @@
-package kz.one.lab;
+package kz.one.lab.servicetask;
 
 import kz.one.lab.client.PersonServiceClient;
-import kz.one.lab.model.Person;
+import kz.one.lab.model.Contact;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
@@ -12,22 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@ExternalTaskSubscription(topicName = "login")
-public class LoginServiceTaskHandler implements ExternalTaskHandler {
+@ExternalTaskSubscription(topicName = "add_contact")
+public class AddContactServiceTaskHandler implements ExternalTaskHandler {
 
     @Autowired
     private PersonServiceClient personServiceClient;
 
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
 
+        Long personId = externalTask.getVariable("personId");
+        String name = externalTask.getVariable("name");
+        String phoneNumber = externalTask.getVariable("phoneNumber");
 
-        String myPhoneNumber = externalTask.getVariable("myPhoneNumber").toString();
-        String password = externalTask.getVariable("password").toString();
-
-        Long id = personServiceClient.login(myPhoneNumber, password);
+        Contact contact = personServiceClient.addContact(personId, name, phoneNumber);
 
         VariableMap variableMap = Variables.createVariables();
-        variableMap.put("person_id", id);
+        variableMap.put("added_contact", contact);
 
         externalTaskService.complete(externalTask, variableMap);
     }
